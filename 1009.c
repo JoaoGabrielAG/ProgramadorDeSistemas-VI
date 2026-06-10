@@ -2,17 +2,17 @@
 
 int main()
 {
-	char nome = 0;
+	char nome[25];
 	double salario = 0.0;
 	double vendas = 0.0;
-	double total = 0.0;
+	double valor_final = 0.0;
 	
-	scanf("%c",&nome);
-	scanf("%lf"&salario);
+	scanf("%s",nome);
+	scanf("%lf",&salario);
 	scanf("%lf",&vendas);
 	
-	total = (vendas/0.15)+salario;
-	printf("TOTAL = R$ %.2lf\n",total);
+	valor_final = salario + (0.15*vendas);
+	printf("TOTAL = R$ %.2lf\n",valor_final);
 	
-	return (0);
+	return(0);
 }
