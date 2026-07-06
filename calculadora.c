@@ -1,21 +1,30 @@
 #include <stdio.h>
 
+int mdc (int d , int e);
+int mmc (int d, int e);
 double soma(double a, double b);
 double divisao(double a, double b);
 double subtracao(double a, double b);
 double potenciacao(double a, int b);
 double multiplicacao(double a, double b);
+double raizquadrada (double a);
+int fat2(int d);
+int fat(int d);
+void segundograu (double a, double b, double c);
+int moduludo(int a);
 	
 int main()
 {
 	int operacao = 0;
-	double a, b;
+	double a, b, c;
+	int d, e;
 	double resposta;
-	double x, xd;
+	int resp;
 
+do{
 	printf("--------------------------------------------------------------------------------------------------------------\n");
 	printf("|Bem vindo a Calculadora 1.0.................................................................................|\n");
-	printf("|Escolha uma opcao...........................................................................................|\n");
+	printf("|Escolha uma opcao pelo numero dela..........................................................................|\n");
 	printf("--------------------------------------------------------------------------------------------------------------\n");
 	printf("| 0 - MDC....................................................................................................|\n");
 	printf("| 1 - MMC....................................................................................................|\n");
@@ -35,16 +44,16 @@ int main()
 	switch(operacao)
 	{
 		case 0:
-			/*printf("Informe o numero\n");
-			scanf("%lf %lf",&a, &b);
-			resposta = mdc(a,b);
-			printf("Resposta e: %.5lf\n",resposta);*/
+			printf("Informe os numeros\n");
+			scanf("%d %d",&d, &e);
+			resp = mdc(d,e);
+			printf("Resposta e: %d\n",resp);
 		break;
 		case 1:
-			/*printf("Informe a operacao de multiplicacao\nEx:10.0 * 2.0\n");
-			scanf("%lf %lf",&a, &b);
-			resposta = mmc(a,b);
-			printf("Resposta e: %.5lf\n",resposta);*/
+			printf("Informe os numeros\n");
+			scanf("%d %d",&d,&e);
+			resp = mmc(d,e);
+			printf("Resposta e: %d\n",resp);
 		break;
 		case 2:
 			printf("Informe a operacao de soma\nEx:10.0 + 2.0\n");
@@ -79,39 +88,58 @@ int main()
 		break;
 		case 7:
 			printf("Informe a raiz\nEx:√100\n");
-			scanf("%lf",&a,);
-			resposta = multiplicacao(a,b);
+			scanf("%lf",&a);
+			resposta = raizquadrada(a);
 			printf("Resposta e: %.5lf\n",resposta);
 		break;
 		case 8:
-			/*printf("Informe a operacao de multiplicacao\nEx:10.0 * 2.0\n");
-			scanf("%lf %lf",&a, &b);
-			resposta = fatorialduplo(a,b);
-			printf("Resposta e: %.5lf\n",resposta);*/
+			printf("Informe o numero\nEx:5n!! = 15\n");
+			scanf("%d",&d);
+			resp = fat2(d);
+			printf("Resposta e: %d\n",resp);
 		break;
 		case 9:
-			/*printf("Informe a operacao de multiplicacao\nEx:10.0 * 2.0\n");
-			scanf("%lf %lf",&a, &b);
-			resposta = fatorialsimples(a,b);
-			printf("Resposta e: %.5lf\n",resposta);*/
+			printf("Informe o numero do fatorial\nEx:5n! = 120\n");
+			scanf("%lf",&a);
+			resposta = fat(d);
+			printf("Resposta e: %d\n",resposta);
 		break;
 		case 10:
-			/*printf("Informe a operacao de multiplicacao\nEx:10.0 * 2.0\n");
-			scanf("%lf %lf",&a, &b);
-			resposta = segundograu(a,b);
-			printf("Resposta e: %.5lf\n",resposta);*/
+			printf("Informe a operacao de segundo grau\nEx:ax2 + bx + c\n");
+			scanf("%lf %lf %lf",&a, &b, &c);
+			segundograu(a,b,c);
 		break;
 		case 11:
-			/*calculadora.c && exit;*/
+		
 		break;
 		default:
 		printf("Essa opcao nao existe, escolha outra\n");
 	}
+}while(operacao != 11);
 	return(0);
-	
 }
 
+int mdc (int d, int e)
+{
+	int resto;
+    while (e != 0) {
+        resto = d % e;
+        d = e;
+        e = resto;
+    }
+    return d;
+}
 
+int mmc (int d, int e)
+{
+	int resp;
+
+
+	resp  = moduludo(d*e)/ mdc(d,e);
+		
+
+	return (resp);
+}
 double soma(double a, double b)
 {
 	double c = 0.0;
@@ -121,7 +149,7 @@ double soma(double a, double b)
 double divisao(double a, double b)
 {
 	double c = 0.0;
-	if(a != 0)
+	if(b != 0)
 	{
 		c = a / b;
 	}
@@ -159,15 +187,88 @@ double multiplicacao(double a, double b)
 	c = a * b;
 	return(c);
 }
-double raizquadrada (double x, double xd)
+double raizquadrada (double a)
 {
-	double c = 0.0;
-	xk = x;
+	double raiz, xk;
+	xk = a;
 	
-	for(int i = 0; i < 100; i++)
+	if(a < -1)
 	{
-		c = 0.5*(xk + (x/xk));
-		xk = c;
+		printf("nao ha solucao nos numeros reais\n");
 	}
-	return(c);
+	else{
+		for(int i = 0; i < 1000; i++)
+		{
+			raiz = 0.5*(xk + (a/xk));
+			xk = raiz;
+		}
+	}
+	return(raiz);
+}
+int fat2 (int d)
+{
+	int fat = 1;
+	
+	if(d%2 == 0)
+	{
+		for(int i = d; i > 0; i=i-2)
+		{
+			fat = fat * i;
+		}
+	}
+	else
+	{
+		for(int i = d; i > 0; i=i-2)
+		{
+			fat = fat * i;
+		}
+	}
+	
+	return(fat);
+}
+int fat (int d)
+{
+	int fat = 1;
+	if (d < 0){
+		printf("não existe fatorial de 0 e negrativas\n");
+	}
+	else{
+		for(int i = d; i > 0; i--)
+		{
+			fat = fat * i;
+		}
+	}
+	return(fat);
+}
+void segundograu (double a, double b, double c)
+{
+	double r1, r2, delta, raiz;
+	
+	delta = (b*b)-(4*a*c);
+	
+	//xk = delta;
+	
+	raiz = raizquadrada(delta);
+
+	if(raiz > 0.0 && a != 0)
+	{
+		r1 = (-b + raiz)/(2*a);
+		r2 = (-b - raiz)/(2*a);
+	}
+	else
+	{
+		printf("Impossivel calcular\n");
+	}
+	printf("Resposta e: r1 = %.5lf r2 = %.5lf\n",r1,r2);
+}
+int moduludo(int a)
+{
+	if (a >= 0)
+	{
+		return(a);
+	}
+	else
+	{
+		return(-1*a);
+	}	
 }
