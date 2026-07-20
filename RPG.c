@@ -7,7 +7,7 @@ void verstatus (char nick[], int hp, int hpm, int atq, int def, int nivel, int e
 void explorarMapa(int *hp, int *ouro, int *ppi, int *pgi);
 void combate();
 void subirNivel();
-void loja();
+void loja(int ouro, int *ppi, int *pgi, int *espada, int *escudo, int *arm);
 void inventario(int inv[], int *ppi, int *pgi, int *espada, int *escudo, int *arm, int *hp, int *def, int *atq);
 void descansar();
 void chefeFinal();
@@ -21,17 +21,17 @@ int main ()
 	int inv[20];
 	int ppi = 0, pgi = 0, espada = 0, escudo = 0, arm = 0;
 	int *o = &hpm, *i = &atq, *u = &def, *y = &nivel, *t = &exp, *r = &ouro;
-	hp > 100 == 100;
-	printf("O reino de C-Nai está sendo atacado por criaturas sombrias."\n);
-	printf("Você é um aventureiro escolhido para derrotar o terrível Dragão das Sombras, uma criatura poderosa que ameaça destruir todo o reino.\n");
-	printf("Para conseguir derrotá-lo será necessário:\n");
-	Explorar regiões perigosas;
-	Enfrentar monstros;
-	Ganhar experiência;
-	Coletar ouro;
-	Comprar equipamentos;
-	Evoluir seu personagem.
-	printf("Somente os aventureiros mais fortes serão capazes de derrotar o dragão.");
+	hp && >100 == 100;
+	printf("O reino de C-Nai esta sendo atacado por criaturas sombrias.\n");
+	printf("Voce e um aventureiro escolhido para derrotar o terrível Dragao das Sombras, uma criatura poderosa que ameaca destruir todo o reino.\n");
+	printf("Para conseguir derrota-lo sera necessario:\n");
+	printf("Explorar regioes perigosas;\n");
+	printf("Enfrentar monstros;\n");
+	printf("Ganhar experiencia;\n");
+	printf("Coletar ouro;\n");
+	printf("Comprar equipamentos;\n");
+	printf("Evoluir seu personagem.\n");
+	printf("Somente os aventureiros mais fortes serão capazes de derrotar o dragao.\n");
 	do{
 		printf("=================================================\n");
 		printf("          RPG DE TEXTO - A JORNADA DO HEROI      \n");
@@ -57,8 +57,9 @@ int main ()
 			case 3:
 				explorarMapa(&hp,&ouro,&ppi,&pgi);
 			break;
-			/*case 4:
-			break;*/
+			case 4:
+				loja(ouro, &ppi, &pgi, &espada, &escudo, &arm);
+			break;
 			case 5:
 				inventario(inv, &ppi, &pgi, &espada, &escudo, &arm, &hp, &def, &atq);
 			break;
@@ -172,9 +173,124 @@ void explorarMapa(int *hp, int *ouro, int *ppi, int *pgi)
 	}
 	else
 	{}
+}*/
+void loja(int ouro, int *ppi, int *pgi, int *espada, int *escudo, int *arm)
+{
+	int luja, q, w, e, r, t;
+	printf("\nOuro: %d\n\n1 - Pocao Pequena: 20\n2 - Pocao Grande: 40\n3 - Espada: 100\n4 - Armadura: 120\n5 - Escudo: 80\n0 - Voltar\n", ouro);
+	scanf("%d",&luja);
+	do{
+		switch(luja){
+			case 1:
+			printf("Comprar Pocao Pequena?\n1 - Comfirmar\n2 - Voltar\n");
+			scanf("%d",&q);
+			do{
+				switch(q){
+					case 1:
+					if(ouro >= 20){
+						++*ppi;
+					printf("Voce comprou a Pocao!!!\n");
+					}
+					else{
+						printf("Voce não tem Ouro suficiente\n");
+					}
+					break;
+					case 0:
+					break;
+					default:
+					printf("Essa opção não existe\n");
+				}
+			}while(q != 0);
+			return;
+			break;
+			case 2:
+			do{
+				switch(w){
+					case 1:
+					if(ouro >= 40){
+						++*pgi;
+					printf("Voce comprou a Pocao!!!\n");
+					}
+					else{
+						printf("Voce nao tem Ouro suficiente\n");
+					}
+					break;
+					case 0:
+					break;
+					default:
+					printf("Essa opcao nao existe\n");
+				}
+			}while(w != 0);
+			return;
+			break;
+			case 3:
+			do{
+				switch(e){
+					case 1:
+					if(ouro >= 100){
+						++*espada;
+					printf("Voce comprou a Espada!!!\n");
+					}
+					else{
+						printf("Voce nao tem Ouro suficiente\n");
+					}
+					break;
+					case 0:
+					break;
+					default:
+					printf("Essa opcao nao existe\n");
+				}
+			}while(e != 0);
+			return;
+			break;
+			case 4:
+			do{
+				switch(r){
+					case 1:
+					if(ouro >= 120){
+						++*arm;
+					printf("Voce comprou a Armadura!!!\n");
+					}
+					else{
+						printf("Voce nao tem Ouro suficiente\n");
+					}
+					break;
+					case 0:
+					break;
+					default:
+					printf("Essa opcao nao existe\n");
+				}
+			}while(r != 0);
+			return;
+			break;
+			case 5:
+			do{
+				switch(t){
+					case 1:
+					if(ouro >= 80){
+						++*escudo;
+					printf("Voce comprou o Escudo!!!\n");
+					}
+					else{
+						printf("Voce nao tem Ouro suficiente\n");
+					}
+					break;
+					case 0:
+					break;
+					default:
+					printf("Essa opcao nao existe\n");
+				}
+			}while(t != 0);
+			return;
+			break;
+			case 0:
+			break;
+			default:
+			printf("Talvez em futuras atualizacoes\n");
+		}
+	}while(luja != 0);
+	return;
 }
-void loja();
-{}*/
 void inventario(int inv[], int *ppi, int *pgi, int *espada, int *escudo, int *arm, int *hp, int *def, int *atq)
 {
 	int opcao_inv, inv_1, inv_2, inv_3, inv_4, inv_5;
@@ -193,6 +309,7 @@ void inventario(int inv[], int *ppi, int *pgi, int *espada, int *escudo, int *ar
 					case 2:
 					if(*ppi > 0){
 					*hp += 20;
+					*ppi -= 1;
 					printf("Voce recuperou 20 de vida\n");}
 					else{
 					printf("Voce nao tem Porcao Pequena\n");}
@@ -224,6 +341,7 @@ void inventario(int inv[], int *ppi, int *pgi, int *espada, int *escudo, int *ar
 					case 2:
 					if(*pgi > 0){
 					*hp += 50;
+					*pgi -= 1;
 					printf("Voce recuperou 50 de vida\n");}
 					else{
 					printf("Voce nao tem Porcao Grande\n");}
@@ -255,6 +373,7 @@ void inventario(int inv[], int *ppi, int *pgi, int *espada, int *escudo, int *ar
 					case 2:
 					if(*espada > 0){
 					*atq += 5;
+					*espada -= 1;
 					printf("Voce ganhou +5 de Ataque\n");}
 					else{
 					printf("Voce nao tem Espada\n");}
@@ -286,6 +405,7 @@ void inventario(int inv[], int *ppi, int *pgi, int *espada, int *escudo, int *ar
 					case 2:
 					if(*escudo > 0){
 					*def += 3;
+					*escudo -= 1;
 					printf("Voce ganhou +3 de Defesa\n");}
 					else{
 					printf("Voce nao tem Escudo\n");}
@@ -316,6 +436,7 @@ void inventario(int inv[], int *ppi, int *pgi, int *espada, int *escudo, int *ar
 					case 2:
 					if(*arm > 0){
 					*def += 5;
+					*arm -= 1;
 					printf("Voce ganhou +5 de Defesa\n");}
 					else{
 					printf("Voce nao tem Armadura\n");}
@@ -340,8 +461,8 @@ void inventario(int inv[], int *ppi, int *pgi, int *espada, int *escudo, int *ar
 			default:
 			printf("Talvez em futuras atualizacoes\n");
 		}
-		}while(opcao_inv != 0);
-		return;
+	}while(opcao_inv != 0);
+	return;
 }
 
 /*void descansar();
