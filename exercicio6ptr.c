@@ -2,20 +2,20 @@
 
 int main ()
 {
-	int a, b, maior;
+	int a, b;
 	int *p = &a, *o = &b;
 	printf("Digite A:");
 	scanf("%d",&a);
 	printf("Digite B:");
-	scanf("%b",&b);
+	scanf("%d",&b);
 	
-	if(p > o)
+	if(*p > *o)
 	{
-		printf("Maior valor: %d",maior);
+		printf("Maior valor: %d",*p);
 	}
-	else(o > p);
+	else
 	{
-		printf("Maior valor: %d",maior);
+		printf("Maior valor: %d",*o);
 	}
 	return 0;
 }
