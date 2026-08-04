@@ -1,16 +1,16 @@
 #include<stdio.h>
-#define T 3
+#define T 5
 
 int main()
 {
 	int matriz[T][T];
-	int soma = 0;
+	int par = 0, impar = 0;
 	
 	for(int l = 0; l < T; l++)
 	{
 		for(int c = 0; c < T; c++)
 		{
-			printf("Informe os numeros: ");
+			printf("Informe o numero: ");
 			scanf("%d",&matriz[l][c]);
 		}
 	}
@@ -22,17 +22,22 @@ int main()
 		}
 		printf("\n");
 	}
-	printf("\n");
 	for(int l = 0; l < T; l++)
 	{
 		for(int c = 0; c < T; c++)
 		{
-			if(l + c == T - 1)
+			if( matriz[l][c] % 2 == 0)
 			{
-				soma += matriz[l][c];
+				par++;
+			}
+			else
+			{
+				impar++;
 			}
 		}
 	}
-	printf("%d",soma);
+	printf("Quantidade de numero par: %d\n",par);
+	printf("Quantidade de numero impar: %d\n",impar);
+	
 	return(0);
 }

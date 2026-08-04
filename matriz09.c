@@ -1,16 +1,17 @@
 #include<stdio.h>
-#define T 3
+#define T 5
 
 int main()
 {
 	int matriz[T][T];
-	int soma = 0;
+	int num;
+	int encontrou;
 	
 	for(int l = 0; l < T; l++)
 	{
 		for(int c = 0; c < T; c++)
 		{
-			printf("Informe os numeros: ");
+			printf("Informe um numero: ");
 			scanf("%d",&matriz[l][c]);
 		}
 	}
@@ -22,17 +23,23 @@ int main()
 		}
 		printf("\n");
 	}
+	printf("Verifique existencia de um numero na matriz: ");
+	scanf("%d",&num);
 	printf("\n");
 	for(int l = 0; l < T; l++)
 	{
 		for(int c = 0; c < T; c++)
 		{
-			if(l + c == T - 1)
+			if(matriz[l][c] == num)
 			{
-				soma += matriz[l][c];
+				printf("Numero na LINHA: %d e COLUNA: %d\n",l,c);
+				encontrou = 1;
 			}
 		}
 	}
-	printf("%d",soma);
+	if(encontrou == 0)
+	{
+		printf("Nao existe esse numero na matriz");
+	}
 	return(0);
 }

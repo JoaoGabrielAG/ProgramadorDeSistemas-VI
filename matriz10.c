@@ -1,10 +1,11 @@
 #include<stdio.h>
-#define T 3
+#define T 5
 
 int main()
 {
 	int matriz[T][T];
-	int soma = 0;
+	int maior = -99;
+	int num;
 	
 	for(int l = 0; l < T; l++)
 	{
@@ -14,6 +15,7 @@ int main()
 			scanf("%d",&matriz[l][c]);
 		}
 	}
+
 	for(int l = 0; l < T; l++)
 	{
 		for(int c = 0; c < T; c++)
@@ -22,17 +24,17 @@ int main()
 		}
 		printf("\n");
 	}
-	printf("\n");
-	for(int l = 0; l < T; l++)
+	for(int c = 0; c < T; c++)
 	{
-		for(int c = 0; c < T; c++)
+		maior = matriz[0][c];
+		for(int l = 1; l < T; l++)
 		{
-			if(l + c == T - 1)
+			if(matriz[l][c] > maior)
 			{
-				soma += matriz[l][c];
+				maior = matriz[l][c];
 			}
-		}
-	}
-	printf("%d",soma);
+    }
+    printf("Maior da coluna %d: %d\n", c, maior);
+}
 	return(0);
 }
