@@ -1,0 +1,17 @@
+#include <stdio.h>
+ 
+int main() {
+ 
+    int a = 0;
+    int b = 0;
+    int soma = 0;
+    
+    scanf("%d",&a);
+    scanf("%d",&b);
+    
+    soma=a+b;
+    
+    printf("soma = %d\n",soma);
+	
+    return (0);
+}
