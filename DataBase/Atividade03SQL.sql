@@ -19,6 +19,12 @@ CREATE TABLE alunos_antigos (
     cidade VARCHAR(50)
 );
 
+CREATE TABLE alunos_transferidos(
+	alunos_id SERIAL PRIMARY KEY,
+	nome VARCHAR(100) NOT NULL,
+	cidade VARCHAR(50)
+);
+
 INSERT INTO cursos (nome, carga_horaria) VALUES
 ('Programação de Sistemas', 1200),
 ('Redes de Computadores', 1000),
@@ -48,6 +54,13 @@ INSERT INTO alunos_antigos (nome, cidade) VALUES
 ('Ana Silva', 'Curitiba'),
 ('Carlos Souza', 'Curitiba');
 
+INSERT INTO alunos_transferidos (nome, cidade) VALUES
+('Fernando Souza','Curitiba'),
+('Marcos Vespa','Maringá'),
+('Bruna Lima', 'Londrina'),
+('Pedro Agusto', 'Curitiba'),
+('Erika Alves', 'Curitiba');
+
 SELECT a.nome, c.nome FROM alunos AS a
 INNER JOIN cursos AS c ON c.id = a.curso_id;
 
@@ -68,4 +81,67 @@ SELECT a.nome, c.nome AS curso, c.carga_horaria FROM alunos AS a
 INNER JOIN cursos AS c ON c.id = a.curso_id
 WHERE c.carga_horaria > 900;
 
-SELECT 
+SELECT a.nome, c.nome AS curso FROM alunos AS a
+LEFT JOIN cursos AS c ON c.id = a.curso_id;
+
+SELECT a.nome, a.cidade, c.nome AS curos FROM alunos AS a
+LEFT JOIN cursos AS c ON c.id = a.curso_id;
+
+SELECT a.nome, c.nome AS curso FROM alunos AS a
+LEFT JOIN cursos AS c ON c.id = a.curso_id
+WHERE curso_id IS NULL;
+
+SELECT a.nome, a.cidade, c.nome AS curso FROM alunos AS a
+LEFT JOIN cursos AS c ON c.id = a.curso_id
+WHERE a.cidade = 'Curitiba';
+
+SELECT c.nome AS curso, a.nome FROM alunos AS a
+RIGHT JOIN cursos AS c ON c.id = a.curso_id;
+
+SELECT c.nome AS curso, c.carga_horaria, a.nome FROM alunos AS a
+RIGHT JOIN cursos AS c ON c.id = a.curso_id;
+
+--INNER JOIN: pega tudo que está ligado entra a coluna A e a coluna B;
+--LEFT JOIN: pega somente o que está no meio até a esqueda;
+--RIGHT JOIN: peda somente o que está no meio até a diretira;
+
+SELECT nome FROM alunos
+UNION
+SELECT nome FROM alunos_antigos;
+
+SELECT nome, cidade FROM alunos
+UNION
+SELECT nome, cidade FROM alunos_antigos;
+
+SELECT nome FROM alunos
+UNION 
+SELECT nome FROM alunos_antigos
+ORDER BY nome ASC;
+
+		SELECT nome FROM alunos
+		UNION ALL
+SELECT nome FROM alunos_antigos;
+
+--UNION: combina as duas tabelas, mas não duplicar
+--UNION ALL: combina e duplicar
+
+-- 29: JOIN pois juntamos informações de duas tabelas;
+-- 30: UNION para pega o nome das duas tabelas;
+-- 31: UNIAN ALL serve para pega tudo até as duplicadas;
+-- 32: 
+
+SELECT a.nome, a.cidade, c.nome AS curso, c.carga_horaria FROM alunos AS a
+INNER JOIN cursos AS c ON c.id = curso_id
+ORDER BY a.nome ASC;
+
+SELECT nome FROM alunos
+UNION
+SELECT nome FROM alunos_transferidos;
+
+SELECT nome FROM alunos
+UNION ALL
+SELECT nome FROM alunos_transferidos;
+
+-- Um pega todos os alunos sem duplicar, o outro pega tudo até duplicador;
+
+-- 
