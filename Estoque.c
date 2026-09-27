@@ -2,27 +2,17 @@
 #include <stdlib.h>
 #include <windows.h>
 #include <C:\msys64\mingw64\include\libpq-fe.h>
-// ALTERANDO: Agora o MSYS2 gerencia o cabeçalho globalmente
 
+int Cadastra(PGconn *conn);
+void Imprimir(PGconn *conn);
+void Apagar(PGconn *conn);
 
-int Imprimir(PGconn *conn);
 
 int main()
 {
 	system("chcp 65001");
 	system("color a");
 	int opcao;
-	
-	const char *conninfo = "host=localhost port=5432 dbname=Estoque user=postgres password=admin";
-	
-	PGconn *conn = PQconnectdb(conninfo);
-
-	if (PQstatus(conn) == CONNECTION_BAD)
-	{
-		fprintf(stderr, "Erro de conexão: %s\n", PQerrorMessage(conn));
-		PQfinish(conn);
-		return 1;
-	}
 	
 	printf("Conectado ao PostgreSQL com sucesso!\n\n");
 	
@@ -44,13 +34,16 @@ int main()
 			case(0):
 			break;
 			case(1):
-				Imprimir(conn);
+				Cadastra(conn);
 			break;
 			case(2):
+				Imprimir(conn);
 			break;
 			case(3):
+				Apagar(conn)
 			break;
 			case(4):
+				system("Exit");
 			break;
 			default:
 			printf("Essa opção não existir\n");
@@ -60,16 +53,29 @@ int main()
 	return 0;
 	}
 
-int Imprimir(PGconn *conn)
+int Cadastra(PGconn *conn)
 {
-	char produto[20];
+	char produto[50];
 	int quantidade = 0;
 	double preco = 0.0;
 	int tamanho = 0;
 	PGresult *res = NULL;
-		
+	
+	const char *conninfo = "host=localhost port=5432 dbname=Estoque user=postgres password=admin";
+	
+	PGconn *conn = PQconnectdb(conninfo);
+	
+	if (PQstatus(conn) == CONNECTION_BAD)
+	{
+		fprintf(stderr, "Erro de conexão: %s\n", PQerrorMessage(conn));
+		PQfinish(conn);
+		return 1;
+	}
+	
+	printf("Conectado ao banco com sucesso!\n");
+	
 	printf("Informe o nome do produto: ");
-	scanf("%s",produto);
+	scanf("%[^\n]",produto);
 	printf("\nInforme a quantidade do produto: ");
 	scanf("%d",&quantidade);
 	printf("\nInforme o preço do produto: ");
@@ -91,9 +97,143 @@ int Imprimir(PGconn *conn)
 		return 1;
 	}
 	
-	printf("Insercao realizada com sucesso!\n");
+	printf("Inserção realizada com sucesso!\n");
 	free(sql);
 	PQclear(res);
-	//PQfinish(conn);
+	PQfinish(conn);
 }
+
+void Imprimir(PGconn *conn)
+{
+	int linhas = PQntuples(res);
+	int colunas = PQnfields(res);
 	
+	const char *conninfo = "host=localhost port=5432 dbname=Estoque user=postgres password=admin";
+	
+	PGconn *conn = PQconnectdb(conninfo);
+	
+	if(PQstatus(conn) != CONNECTION_OK) 
+	{
+		fprintf(stderr, "Error de conexão: %s\n", PQerrorMessage(conn));
+		PQfinish(conn);
+		return 1;
+	}
+	
+	printf("Conectado ao banco com sucesso!\n");
+	
+	PGresult *res = PQexec(conn, "SELECT * FROM estoque;");
+	
+	if (PQresultStatus(res) != PGRES_COMMAND_OK) 
+	{
+		fprintf(stderr, "Erro na consulta: %s\n", PQerrorMessage(conn));
+		PQclear(res);
+		PQfinish(conn);
+		return 1;
+	}
+	
+	printf("\n----------------------TABELA-ATUAL----------------------\n");
+	printf("Total de linhas %d\n", linhas);
+	printf("Total de colunas %d\n", colunas);
+	
+	for(int j = 0; j < colunas; j++)
+	{
+		printf("%-20s", PQfname(res, j));
+	}
+	printf("\n--------------------------------------------------------\n");
+	
+	for(int i = 0; i < linhas; i++)
+	{
+		for(int j = 0; j < colunas; j++)
+		{
+			printf("%-20s", PQgetvalue(res, i, j));
+		}
+		printf("\n");
+	}
+	
+	PQclear(res);
+	PQfinish(conn);
+	return 0;
+}
+
+void Apagar(PGconn *conn)
+{
+	Imprimir(conn);
+	
+	int id
+	
+	printf("Digite o ID do produto que deseja apagar: ");
+	scanf(" %d",&id);
+	
+	char sql[200];
+	
+	snprintf(sql, sizeof(sql), "DELETE FROM estoque WHERE id = %d;",id);
+	
+	PGresult *res = PQexec(conn, sql);
+	
+	if(PQresultStatus(res) != PGRES_COMMAND_OK)
+	{
+		fprintf(stderr, "Erro no DELETE: $s\n", PQerrorMessage(conn));
+	}
+	else
+	{
+		if(PQcmdTuples(res)[0] == '0')
+		{
+			printf("\nNenhum produto encontrado com esse Id\n");
+		}
+		else
+		{
+			printf("Produto apagado com sucesso!\n");
+		}
+	}
+	
+	PQclear(res);
+	
+	printf("Estoque atualizado\n");
+	Imprimir(conn);
+}
+
+Void Atualizar(PGconn *conn)
+{
+	Imprimir(conn);
+	
+	int id;
+	char produto[50];
+	int quantidade;
+	double preco;
+	
+	printf("\nDigite p Id do produto que deseja atualizar: ");
+	scanf(" %d",&id);
+	printf("\nNovo nome do produto: ");
+	scanf("%[^\n]",produto);
+	printf("\nNova quantidade: ");
+	scanf(" %d",&quantidade);
+	printf("\nNovo preço: ");
+	scanf("%lf",&preco);
+	
+	char sql[500];
+	
+	snprintf(sql, sizeof(sql), "UPDATE estoque SET produto = '%s', quantidade = %d, preco_unitario = %lf WHERE id = %d;", produto, quantidade, preco, id);
+	
+	PGresult *res = PQexec(conn, sql);
+	
+	if(PQresultStatus(res) != PGRES_COMMAND_OK)
+	{
+		fprintf(stderr, "Erro no UPDATE: %s\n", PQerrorMessage(conn));
+	}
+	else
+	{
+		if(PQcmdTuples(res)[0] == '0')
+		{
+			printf("Nenhum produto encontrado com esse Id\n");
+		}
+		else 
+		{
+			printf("Produto atualizado com sucesso!\n");
+		}
+	}
+	
+	PQclear(res);
+	
+	printf("Estoque atualizado\n");
+	Imprimir(conn);
+}
